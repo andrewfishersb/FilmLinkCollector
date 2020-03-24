@@ -42,8 +42,6 @@ class URL_Generator:
             cur_film = initial_film_list[x]
             substring_film = cur_film[0:len(cur_film) - 1]
             list_of_films.insert(x, substring_film)
-            # print(list_of_films[x])
-
         file.close()
         return list_of_films
 
@@ -71,24 +69,35 @@ if __name__ == '__main__':
             while platform not in ['Amazon', 'Netflix', 'Xfinity']:
                 platform = input("What platform are you using? (Amazon, Netflix or Xfinity)\n")
 
+            url_list = []
+            for film in movie_list:
+                url = generator.create_url(film, platform)
+                url_list.append(url)
+
             if initial_command == 1:
                 # Write to file
-                url_list = []
-                for film in movie_list:
-                    url = generator.create_url(film, platform)
-                    url_list.append(url)
 
                 if platform == "Amazon":
-                    file_name = "Urls_Amazon_Films"
+                    write_file_name = "Urls_Amazon_Films"
                 elif platform == "Netflix":
-                    file_name = "Urls_Netflix_Films"
+                    write_file_name = "Urls_Netflix_Films"
                 else:
-                    file_name = "Urls_Xfinity_Films"
+                    write_file_name = "Urls_Xfinity_Films"
 
-                generator.write_to_file(file_name, url_list)
+                generator.write_to_file(write_file_name, url_list)
             else:
+                # Determines the file to open the urls from (2. Open Links)
+                # if platform == "Xfinity":
+                #     #There is a file of films by id urls which is quicker to look at so they are given the option here
+                #     direct_link_input = input("Would you like to open direct film links (Y or Yes)")
+                #     if direct_link_input == "Y" or direct_link_input == "Yes":
+                #         #Double check that the url is not being cut off
+                #           url_list = generator.open_a_file("Urls_Xfinity_Film_By_Id")
 
+                for open_film in url_list:
+                    webbrowser.open_new(open_film)
 
+            # Reprompts the user
             initial_command = input("What would you like to do (type the number)\n1. Update Links\n2. Open Links\n3. Exit\n")
 
 
