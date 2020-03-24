@@ -74,7 +74,8 @@ if __name__ == '__main__':
                 url = generator.create_url(film, platform)
                 url_list.append(url)
 
-            if initial_command == 1:
+
+            if int(initial_command) == 1:
                 # Write to file
 
                 if platform == "Amazon":
@@ -94,8 +95,32 @@ if __name__ == '__main__':
                 #         #Double check that the url is not being cut off
                 #           url_list = generator.open_a_file("Urls_Xfinity_Film_By_Id")
 
-                for open_film in url_list:
-                    webbrowser.open_new(open_film)
+                range_selection = input("Open By typing the number before the period.\n1. 1-25\n2. 26-50\n3. 51-75\n4. 75+\n")
+
+                range_start =0
+                range_end = 1
+                if not range_selection.isdigit():
+                    break
+                elif int(range_selection) == 1:
+                    range_end = 25
+                elif int(range_selection) == 2:
+                    range_start = 25
+                    range_end = 50
+                elif int(range_selection) == 3:
+                    range_start = 50
+                    range_end = 75
+                elif int(range_selection) == 4:
+                    range_start = 74
+                    # Maybe the end will need -1 who knows
+                    range_end = len(url_list)
+                    list_range = range
+
+                for i in range(range_start,range_end):
+                    current_film = url_list[i]
+                    webbrowser.open_new(current_film)
+
+
+
 
             # Reprompts the user
             initial_command = input("What would you like to do (type the number)\n1. Update Links\n2. Open Links\n3. Exit\n")
